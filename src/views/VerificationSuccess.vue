@@ -6,6 +6,6 @@ import { register, getUser } from '@/service/auth'
 
 <template>
   <div>
-    Home
+    Activation successful
   </div>
 </template>

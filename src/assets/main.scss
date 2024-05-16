@@ -1,0 +1,38 @@
+@import './tailwind.css';
+@import './base.scss';
+@import './components/_style.scss';
+@import './views/_style.scss';
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  font-weight: normal;
+  height: 100vh;
+}
+
+main {
+  padding-top: 100px;
+  height: 100%;
+}
+
+.main-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+a, .link-button {
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+
+  &:hover {
+    color: lightgray;
+  }
+}
+
+.highlight {
+  color: #ff6b6b;
+}
