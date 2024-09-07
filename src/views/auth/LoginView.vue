@@ -38,7 +38,7 @@ const confirmLogIn = () => {
 </script>
 
 <template>
-  <form @submit.prevent="confirmLogIn" class="login-view">
+  <form @submit.prevent="confirmLogIn" class="flex flex-col items-center gap-y-4">
     <input
       v-model="email"
       type="email"

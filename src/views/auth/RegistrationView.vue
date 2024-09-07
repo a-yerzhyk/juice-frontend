@@ -40,7 +40,7 @@ const confirmRegistration = () => {
 </script>
 
 <template>
-  <form @submit.prevent="confirmRegistration" class="login-view">
+  <form @submit.prevent="confirmRegistration" class="flex flex-col items-center gap-y-4">
     <input
       v-model="name"
       type="text"

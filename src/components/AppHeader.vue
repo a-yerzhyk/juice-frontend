@@ -26,10 +26,10 @@ const handleLogout = () => {
       <RouterLink v-if="user" to='/my-recipes'>
         My Recipes
       </RouterLink>
-      <RouterLink v-if="user === null" to='/registration'>
+      <RouterLink v-if="user === null" to='/auth/registration'>
         Register
       </RouterLink>
-      <RouterLink v-if="user === null" to='/login'>
+      <RouterLink v-if="user === null" to='/auth/login'>
         Login
       </RouterLink>
       <LinkButton v-if="user !== null" @click="handleLogout">

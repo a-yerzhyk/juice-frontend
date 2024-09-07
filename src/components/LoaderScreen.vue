@@ -1,4 +1,19 @@
-/* HTML: <div class="loader"></div> */
+<template>
+  <div class="main-loader">
+    <div className="loader-wrapper">
+      <div class="loader"></div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.main-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+  width: inherit;
+}
 .loader-wrapper {
   position: relative;
   z-index: 1;
@@ -33,3 +48,4 @@
  0%   {background-size: 100% 100%}
  100% {background-size: 100% 5%}
 }
+</style>
