@@ -14,7 +14,6 @@ declare module 'vue' {
     InputGroup: typeof import('primevue/inputgroup')['default']
     InputGroupAddon: typeof import('primevue/inputgroupaddon')['default']
     InputText: typeof import('primevue/inputtext')['default']
-    LinkButton: typeof import('./src/components/LinkButton.vue')['default']
     LoaderScreen: typeof import('./src/components/LoaderScreen.vue')['default']
     LoadingScreen: typeof import('./src/components/LoadingScreen.vue')['default']
     Menubar: typeof import('primevue/menubar')['default']
