@@ -1,5 +1,5 @@
-@import './tailwind.scss';
 @import './base.scss';
+@import './tailwind.scss';
 @import './components/_style.scss';
 @import './views/_style.scss';
 
@@ -9,6 +9,10 @@
   font-weight: normal;
   height: 100%;
   width: 100%;
+
+  @media (max-width: 1680px) {
+    padding: 0 40px; /* Header height */
+  }
 }
 
 a, .link-button {

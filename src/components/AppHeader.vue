@@ -47,7 +47,7 @@ const items = computed(() => {
   <div
     class="app-header border-b-1 rounded-b-sm"
   >
-    <h1>YourJuice</h1>
+    <h1 class="text-2xl">YourJuice</h1>
     <div class="flex items-center gap-x-2">
       <Button
         as="router-link"
@@ -75,6 +75,7 @@ const items = computed(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 10px;
+  padding: 15px 40px;
+  background-color: black;
 }
 </style>

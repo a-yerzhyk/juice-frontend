@@ -92,15 +92,17 @@ const filteredRecipes = computed(() => {
           :ingredients="ingredients"
           @change="addIncludeIngredient"
         />
-        <ul>
+        <ul class="mt-2 space-y-2">
           <li
             v-for="ingredient in ingredientsToInclude"
             :key="ingredient._id"
           >
             {{ ingredient.name }}
-            <button class="button" @click.prevent="() => removeIncludeIngredient(ingredient)">
-              Remove Ingredient
-            </button>
+            <Button 
+              icon="pi pi-times"
+              severity="danger"
+              @click.prevent="() => removeIncludeIngredient(ingredient)"
+            />
           </li>
         </ul>
       </div>
@@ -109,15 +111,17 @@ const filteredRecipes = computed(() => {
           :ingredients="ingredients"
           @change="addExcludeIngredient"
         />
-        <ul>
+        <ul class="mt-2 space-y-2">
           <li
             v-for="ingredient in ingredientsToExclude"
             :key="ingredient._id"
           >
             {{ ingredient.name }}
-            <button class="button" @click.prevent="() => removeExcludeIngredient(ingredient)">
-              Remove Ingredient
-            </button>
+            <Button 
+              icon="pi pi-times"
+              severity="danger"
+              @click.prevent="() => removeExcludeIngredient(ingredient)"
+            />
           </li>
         </ul>
       </div>
@@ -126,7 +130,7 @@ const filteredRecipes = computed(() => {
     <button @click="searchRecipes">Search</button>
     <br /> -->
     <br />
-    <ul class="grid grid-cols-3 gap-[30px]">
+    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[30px]">
       <li
         class="bg-white text-black border border-black rounded-lg py-3 px-4"
         v-for="recipe in filteredRecipes"
