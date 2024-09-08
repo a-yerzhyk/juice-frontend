@@ -39,16 +39,18 @@ const confirmLogIn = () => {
 
 <template>
   <form @submit.prevent="confirmLogIn" class="flex flex-col items-center gap-y-4">
-    <input
-      v-model="email"
-      type="email"
-      placeholder="Email"
-    />
-    <input
-      v-model="password"
-      type="password"
-      placeholder="Password"
-    />
-    <input type="submit" value="Log in" />
+    <InputGroup>
+      <InputGroupAddon>
+          <i class="pi pi-at"></i>
+      </InputGroupAddon>
+      <InputText v-model="email" type="email" placeholder="Email" />
+    </InputGroup>
+    <InputGroup>
+      <InputGroupAddon>
+          <i class="pi pi-key"></i>
+      </InputGroupAddon>
+      <InputText v-model="password" type="password" placeholder="Password" />
+    </InputGroup>
+    <Button type="submit" severity="info">Log in</Button>
   </form>
 </template>

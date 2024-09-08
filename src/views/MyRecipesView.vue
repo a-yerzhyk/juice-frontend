@@ -37,6 +37,7 @@ const addIncludeIngredient = (id: string) => {
 }
 
 const addExcludeIngredient = (id: string) => {
+  console.log(id)
   const ingredient = ingredients.value.find((i) => i._id === id)
   if (ingredient) {
     ingredientsToExclude.value.add(ingredient)
@@ -89,7 +90,7 @@ const filteredRecipes = computed(() => {
       <div>
         <IngredientSelector
           :ingredients="ingredients"
-          @changed="addIncludeIngredient"
+          @change="addIncludeIngredient"
         />
         <ul>
           <li
@@ -106,7 +107,7 @@ const filteredRecipes = computed(() => {
       <div>
         <IngredientSelector
           :ingredients="ingredients"
-          @changed="addExcludeIngredient"
+          @change="addExcludeIngredient"
         />
         <ul>
           <li

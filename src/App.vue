@@ -5,7 +5,7 @@ import { RouterView } from 'vue-router'
 import { getUser } from '@/service/auth'
 import type { User } from '@/service/auth'
 import AppHeader from '@/components/AppHeader.vue'
-import LoaderScreen from './components/LoaderScreen.vue'
+import LoadingScreen from './components/LoadingScreen.vue'
 
 const user = ref<User | null>(null)
 const isLoading = ref(true)
@@ -26,5 +26,5 @@ provide<Ref<User | null>>('user', user)
     <AppHeader />
     <RouterView />
   </template>
-  <LoaderScreen v-else />
+  <LoadingScreen v-else />
 </template>

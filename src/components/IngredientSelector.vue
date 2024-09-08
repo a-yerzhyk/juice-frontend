@@ -1,42 +1,46 @@
+// @ts-ignore
 <script setup lang="ts">
-import { toRefs, ref, watch, defineEmits } from 'vue'
+import { toRefs, ref } from 'vue'
 import type { Ingredient } from '@/service/ingredients'
-
-
-const props = defineProps({
-  ingredients: Array<Ingredient>
-})
-const { ingredients } = toRefs(props)
-const emit = defineEmits(['changed'])
+import type { AutoCompleteCompleteEvent } from 'primevue/autocomplete';
 
 const ingredientModel = defineModel({ type: String, default: '' })
-const selectRef = ref<InstanceType<typeof HTMLSelectElement> | null>(null)
+
+const props = defineProps<{
+  ingredients: Array<Ingredient>
+}>()
+const { ingredients } = toRefs(props)
+
+const selectRef = ref(null)
 defineExpose({ selectRef })
 
-const changed = (event: Event) => {
-  console.log('changed', event)
-}
+const emit = defineEmits(['change'])
 
-watch(ingredientModel, (newValue) => {
-  if (newValue) {
-    emit('changed', newValue)
+const filteredIngredients = ref<Ingredient[]>([])
+
+const search = (event: AutoCompleteCompleteEvent) => {
+  if (!event.query.trim().length) {
+    filteredIngredients.value = [...ingredients.value];
+  } else {
+    filteredIngredients.value = ingredients.value.filter((ingredient) => {
+      return ingredient.name.toLowerCase().startsWith(event.query.toLowerCase());
+    });
   }
-})
+}
 </script>
 
 <template>
-  <select
+  <AutoComplete
+    ref="selectorRef"
     v-model="ingredientModel"
-    ref="selectRef"
-    class="text-black"
+    optionLabel="name"
+    dropdown
+    :suggestions="filteredIngredients"
+    @complete="search"
+    @change="(e) => emit('change', e.value._id)"
   >
-    <option disabled value="">Please select one</option>
-    <option
-      v-for="ingredient in ingredients"
-      :key="ingredient._id"
-      :value="ingredient._id"
-    >
-      {{ ingredient.name }}
-    </option>
-  </select>
+    <template #option="{ option }">
+      <div>{{ option.name }}</div>
+    </template>
+  </AutoComplete>
 </template>

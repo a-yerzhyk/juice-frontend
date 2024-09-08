@@ -41,26 +41,30 @@ const confirmRegistration = () => {
 
 <template>
   <form @submit.prevent="confirmRegistration" class="flex flex-col items-center gap-y-4">
-    <input
-      v-model="name"
-      type="text"
-      placeholder="Name"
-    />
-    <input
-      v-model="email"
-      type="email"
-      placeholder="Email"
-    />
-    <input
-      v-model="password"
-      type="password"
-      placeholder="Password"
-    />
-    <input
-      v-model="passwordToConfirm"
-      type="password"
-      placeholder="Confirm Password"
-    />
-    <input type="submit" value="Register" />
+    <InputGroup>
+      <InputGroupAddon>
+          <i class="pi pi-user"></i>
+      </InputGroupAddon>
+      <InputText v-model="name" type="text" placeholder="Name" />
+    </InputGroup>
+    <InputGroup>
+      <InputGroupAddon>
+          <i class="pi pi-at"></i>
+      </InputGroupAddon>
+      <InputText v-model="email" type="email" placeholder="Email" />
+    </InputGroup>
+    <InputGroup>
+      <InputGroupAddon>
+          <i class="pi pi-key"></i>
+      </InputGroupAddon>
+      <InputText v-model="password" type="password" placeholder="Password" />
+    </InputGroup>
+    <InputGroup>
+      <InputGroupAddon>
+          <i class="pi pi-key"></i>
+      </InputGroupAddon>
+      <InputText v-model="passwordToConfirm" type="password" placeholder="Confirm Password" />
+    </InputGroup>
+    <Button type="submit" severity="info">Register</Button>
   </form>
 </template>

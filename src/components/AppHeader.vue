@@ -1,40 +1,80 @@
 <script setup lang="ts">
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 import type { Ref } from 'vue'
 import type { User } from '@/service/auth'
-import { logout } from '@/service/auth'
 import { RouterLink } from 'vue-router'
-import LinkButton from '@/components/LinkButton.vue'
 
 const user = inject<Ref<User | null>>('user')
-const handleLogout = () => {
-  logout().then(success => {
-    if (success && user !== undefined)
-      user.value = null
-  })
-}
+
+const authItems = [
+  {
+    icon: 'pi pi-plus-circle',
+    label: 'Create',
+    route: '/create'
+  },
+  {
+    icon: 'pi pi-list',
+    label: 'My Recipes',
+    route: '/my-recipes'
+  },
+  {
+    icon: 'pi pi-sign-out',
+    label: 'Logout',
+    route: '/auth/logout'
+  },
+]
+
+const unauthItems = [
+  {
+    icon: 'pi pi-user-plus',
+    label: 'Registration',
+    route: '/auth/registration'
+  },
+  {
+    icon: 'pi pi-sign-in',
+    label: 'Login',
+    route: '/auth/login'
+  },
+]
+
+const items = computed(() => {
+  return user?.value ? authItems : unauthItems
+})
+
 </script>
 
 <template>
-  <header className="app-header">
+  <div
+    class="app-header border-b-1 rounded-b-sm"
+  >
     <h1>YourJuice</h1>
-    <div class="app-header__controls" v-if="user !== undefined">
-      <span v-if="user" class="">{{ user.name }}</span>
-      <RouterLink v-if="user" to='/create'>
-        Create
-      </RouterLink>
-      <RouterLink v-if="user" to='/my-recipes'>
-        My Recipes
-      </RouterLink>
-      <RouterLink v-if="user === null" to='/auth/registration'>
-        Register
-      </RouterLink>
-      <RouterLink v-if="user === null" to='/auth/login'>
-        Login
-      </RouterLink>
-      <LinkButton v-if="user !== null" @click="handleLogout">
-        Logout
-      </LinkButton>
+    <div class="flex items-center gap-x-2">
+      <Button
+        as="router-link"
+        v-for="item in items"
+        :key="item.label"
+        :label="item.label"
+        :to="item.route"
+        :icon="item.icon"
+        iconPos="left"
+        severity="secondary"
+        text
+      />
     </div>
-  </header>
+  </div>
 </template>
+
+<style scoped lang="scss">
+.app-header {
+  max-width: 1680px;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10px;
+}
+</style>

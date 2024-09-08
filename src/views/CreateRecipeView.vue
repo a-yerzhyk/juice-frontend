@@ -21,8 +21,8 @@ getIngredients().then((data) => {
   ingredients.value = data
 })
 
-const recipeNameRef = ref<InstanceType<typeof HTMLInputElement> | null>(null)
-const selectorRef = ref<InstanceType<typeof IngredientSelector>[] | null>(null)
+const recipeNameRef = ref(null)
+const selectorRef = ref(null)
 
 const getNewIngredient = (): RecipeIngredientCreateForm => {
   return {
@@ -41,7 +41,8 @@ const addIngredient = () => {
   recipeToCreate.ingredients.push(getNewIngredient())
   nextTick(() => {
     if (selectorRef.value !== null) {
-      selectorRef.value[selectorRef.value.length - 1].selectRef?.focus()
+      // @ts-ignore
+      selectorRef.value[selectorRef.value.length - 1].selectRef?.$el.focus()
     }
   })
 }
@@ -72,7 +73,8 @@ const confirmCreateRecipe = () => {
     .then(() => {
       recipeToCreate.name = ''
       recipeToCreate.ingredients = [getNewIngredient()]
-      recipeNameRef.value?.focus()
+      // @ts-ignore
+      recipeNameRef.value?.$el.focus()
     })
     .catch((error) => {
       alert(error.message)
@@ -80,52 +82,64 @@ const confirmCreateRecipe = () => {
 }
 
 onMounted(() => {
-  recipeNameRef.value?.focus()
+  nextTick(() => {
+    // @ts-ignore
+    recipeNameRef.value?.$el.focus()
+  })
 })
 
 </script>
 
 <template>
   <div>
-    <form @submit.prevent="confirmCreateRecipe" autocomplete="chrome-off">
-      <input
-        ref="recipeNameRef"
-        v-model="recipeToCreate.name"
-        type="text"
-        placeholder="Recipe Name"
-        name="ingredient"
-        autocomplete="off"
-      />
-      <br />
+    <form
+      class="flex flex-col items-start gap-y-4"
+      @submit.prevent="confirmCreateRecipe"
+      autocomplete="chrome-off"
+    >
+      <InputGroup class="w-fit">
+        <InputGroupAddon>
+            <i class="pi pi-hashtag"></i>
+        </InputGroupAddon>
+        <InputText
+          ref="recipeNameRef"
+          v-model="recipeToCreate.name"
+          type="text"
+          placeholder="Recipe Name"
+          name="ingredient"
+          autocomplete="off"
+        />
+      </InputGroup>
       <div
         v-for="ingredient in recipeToCreate.ingredients"
         :key="ingredient.id"
       >
-        <template v-if="ingredients">
+        <div class="flex gap-x-3 items-center" v-if="ingredients">
           <IngredientSelector
             ref="selectorRef"
             v-model="ingredient.ingredientId"
             :ingredients="ingredients"
           />
-          <input
-            v-model="ingredient.quantity"
-            type="text"
-            placeholder="Quantity"
+          <InputGroup class="w-fit">
+            <InputGroupAddon>
+                <i class="pi pi-hashtag"></i>
+            </InputGroupAddon>
+            <InputText
+              v-model="ingredient.quantity"
+              type="text"
+              placeholder="Quantity"
+            />
+          </InputGroup>
+          <Button
+            icon="pi pi-times"
+            severity="danger"
+            rounded
+            @click.prevent="() => removeIngredient(ingredient.id!)"
           />
-          <button @click.prevent="() => removeIngredient(ingredient.id!)">
-            Remove Ingredient
-          </button>
-        </template>
+        </div>
       </div>
-      <button @click.prevent="addIngredient">Add Ingredient</button>
-      <br />
-      <input type="submit" value="Create" />
+      <Button @click.prevent="addIngredient" severity="info">Add Ingredient</Button>
+      <Button type="submit">Create</Button>
     </form>
-    <!-- <br />
-    <ol>
-      <li v-for="ingredient in computedIngredients" :key="ingredient.id">
-        {{ ingredient.name }}
-      </li>
-    </ol> -->
   </div>
 </template>
