@@ -1,8 +1,7 @@
-const SERVER_PORT = import.meta.env.VITE_BACKEND_PORT
 const SERVER_ORIGIN = import.meta.env.VITE_BACKEND_DOMAIN
 
 export async function makeRequest<T>(url: string, options: RequestInit): Promise<T> {
-  const response = await fetch(`http://${SERVER_ORIGIN}:${SERVER_PORT}${url}`, {
+  const response = await fetch(`${SERVER_ORIGIN}${url}`, {
     headers: {
       'Content-Type': 'application/json'
     },
