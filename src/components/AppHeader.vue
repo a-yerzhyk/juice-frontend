@@ -47,7 +47,7 @@ const items = computed(() => {
   <div
     class="app-header border-b-1 rounded-b-sm"
   >
-    <h1 class="text-2xl">YourJuice</h1>
+    <h1 class="text-2xl">LibJuice</h1>
     <div class="flex items-center gap-x-2">
       <Button
         as="router-link"
