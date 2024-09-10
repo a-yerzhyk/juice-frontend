@@ -37,12 +37,17 @@ jobs:
         FRONTEND_IMAGE: juice-client  # Adjust with your Docker image name
       run: |
         # Remove existing image
-        ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST docker image inspect $FRONTEND_IMAGE && docker rmi $FRONTEND_IMAGE
+        ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << EOF
+          if docker image inspect $FRONTEND_IMAGE > /dev/null 2>&1; then
+            docker rmi $FRONTEND_IMAGE
+          fi
+        EOF
+        
         # Copy Docker image to VPS
         docker save $FRONTEND_IMAGE | bzip2 | ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST 'bunzip2 | docker load'
 
         # Run Docker container on VPS
-        ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
+        ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << EOF
           # Stop and remove any existing container if it exists
           docker ps -q -f name=juice-frontend | xargs -r docker stop
           docker ps -a -q -f name=juice-frontend | xargs -r docker rm
