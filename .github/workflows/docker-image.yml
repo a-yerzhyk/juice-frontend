@@ -36,8 +36,13 @@ jobs:
         VPS_HOST: ${{ secrets.VPS_HOST }}
         FRONTEND_IMAGE: juice-client  # Adjust with your Docker image name
       run: |
-        # Remove existing image
+        # Remove existing containers/images
         ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << EOF
+          # Stop and remove any existing container if it exists
+          docker ps -q -f name=juice-frontend | xargs -r docker stop
+          docker ps -a -q -f name=juice-frontend | xargs -r docker rm
+          
+          # Remove existing image if it exists
           if docker image inspect $FRONTEND_IMAGE > /dev/null 2>&1; then
             docker rmi $FRONTEND_IMAGE
           fi
@@ -48,9 +53,6 @@ jobs:
 
         # Run Docker container on VPS
         ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << EOF
-          # Stop and remove any existing container if it exists
-          docker ps -q -f name=juice-frontend | xargs -r docker stop
-          docker ps -a -q -f name=juice-frontend | xargs -r docker rm
           # Run new container
           docker run -d --name juice-frontend -p 8080:8080 $FRONTEND_IMAGE
         EOF
