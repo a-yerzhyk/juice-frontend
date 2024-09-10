@@ -49,6 +49,7 @@ const items = computed(() => {
   >
     <h1 class="text-2xl">LibJuice</h1>
     <div class="flex items-center gap-x-2">
+      <div v-if="user">{{ user.email }}</div>
       <Button
         as="router-link"
         v-for="item in items"
