@@ -1,0 +1,43 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+        
+    - name: Build Docker image
+      run: |
+        docker build -t juice-client .
+        
+    - name: Deploy to VPS
+      env:
+        VPS_USER: ${{ secrets.VPS_USER }}
+        VPS_HOST: ${{ secrets.VPS_HOST }}
+        FRONTEND_IMAGE: juice-client  # Adjust with your Docker image name
+      run: |
+        # Copy Docker image to VPS
+        docker save $FRONTEND_IMAGE | bzip2 | ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST 'bunzip2 | docker load'
+
+        # Run Docker container on VPS
+        ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
+          # Stop and remove any existing container
+          docker stop juice-frontend || true && docker rm juice-frontend || true
+
+          # Run new container
+          docker run -d --name juice-frontend -p 8080:8080 $FRONTEND_IMAGE
+        EOF
