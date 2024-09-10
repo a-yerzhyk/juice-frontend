@@ -41,6 +41,8 @@ jobs:
 
         # Run Docker container on VPS
         ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
+          # Stop and remove any existing container
+          docker stop juice-frontend || true && docker rm juice-frontend || true
 
           # Run new container
           docker run -d --name juice-frontend -p 8080:8080 $FRONTEND_IMAGE
