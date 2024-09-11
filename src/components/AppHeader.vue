@@ -69,6 +69,7 @@ const items = computed(() => {
 .app-header {
   max-width: 1680px;
   position: fixed;
+  z-index: 2000; // primevue components z-index is around 1000
   top: 0;
   left: 50%;
   transform: translateX(-50%);
