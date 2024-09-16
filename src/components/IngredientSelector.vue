@@ -27,17 +27,18 @@ const search = (event: AutoCompleteCompleteEvent) => {
     });
   }
 }
+const value = ref()
 </script>
 
 <template>
   <AutoComplete
     ref="selectorRef"
-    v-model="ingredientModel"
+    v-model="value"
     optionLabel="name"
     dropdown
     :suggestions="filteredIngredients"
     @complete="search"
-    @change="(e) => emit('change', e.value._id)"
+    @change="(e) => (ingredientModel = e.value._id, emit('change', e.value._id))"
   >
     <template #option="{ option }">
       <div>{{ option.name }}</div>
