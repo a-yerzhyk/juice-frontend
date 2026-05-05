@@ -28,7 +28,10 @@ jobs:
         
     - name: Build Docker image
       run: |
-        docker build -t juice-client .
+        docker build \
+          --build-arg VITE_APP_ENV=production \
+          --build-arg VITE_BACKEND_DOMAIN=$BACKEND_DOMAIN \
+          -t juice-client .
         
     - name: Deploy to VPS
       env:
@@ -54,5 +57,5 @@ jobs:
         # Run Docker container on VPS
         ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << EOF
           # Run new container
-          docker run -d --name juice-frontend -p 8080:8080 $FRONTEND_IMAGE
+          docker run -d --name juice-frontend -p 8080:80 --restart unless-stopped $FRONTEND_IMAGE
         EOF
