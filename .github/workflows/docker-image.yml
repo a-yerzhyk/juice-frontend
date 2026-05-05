@@ -27,6 +27,8 @@ jobs:
         VPS_HOST: ${{ secrets.VPS_HOST }}
         
     - name: Build Docker image
+      env:
+        BACKEND_DOMAIN: ${{ secrets.BACKEND_DOMAIN }}
       run: |
         docker build \
           --build-arg VITE_APP_ENV=production \
